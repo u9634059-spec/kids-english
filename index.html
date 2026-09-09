@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kids English</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg,#fff7d6,#e8f7ff);
+  min-height: 100vh;
+  color: #263238;
+}
+
+.app {
+  max-width: 520px;
+  margin: auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+}
+
+.header h1 {
+  margin-bottom: 4px;
+  font-size: 30px;
+}
+
+.header p {
+  margin-top: 0;
+  color: #607d8b;
+}
+
+/* 年齡 */
+.age-box {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.age-btn {
+  flex: 1;
+  border: 0;
+  background: white;
+  padding: 13px 5px;
+  border-radius: 18px;
+  font-size: 17px;
+  font-weight: bold;
+  box-shadow: 0 3px 10px #00000018;
+}
+
+.age-btn.active {
+  background: #ffd54f;
+}
+
+/* 卡片 */
+.card {
+  background: white;
+  border-radius: 30px;
+  padding: 25px 20px;
+  box-shadow: 0 8px 25px #00000018;
+  text-align: center;
+}
+
+.category {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #388e3c;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.picture {
+  font-size: 110px;
+  margin: 15px 0 5px;
+}
+
+.word {
+  font-size: 42px;
+  font-weight: 800;
+}
+
+.pronunciation {
+  color: #78909c;
+  margin: 5px;
+}
+
+.listen {
+  border: 0;
+  background: #4fc3f7;
+  padding: 12px 22px;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 12px;
+}
+
+.sentence {
+  font-size: 22px;
+  line-height: 1.5;
+  margin: 15px 5px;
+}
+
+.story-box {
+  text-align: left;
+  background: #fff8e1;
+  border-radius: 20px;
+  padding: 17px;
+  margin-top: 18px;
+}
+
+.story-title {
+  font-weight: bold;
+  font-size: 19px;
+  margin-bottom: 8px;
+}
+
+.story {
+  font-size: 19px;
+  line-height: 1.55;
+}
+
+.read {
+  width: 100%;
+  border: 0;
+  background: #81c784;
+  padding: 14px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 14px;
+}
+
+.next {
+  width: 100%;
+  border: 0;
+  background: #ffb74d;
+  padding: 17px;
+  border-radius: 22px;
+  font-size: 21px;
+  font-weight: bold;
+  margin-top: 18px;
+}
+
+.counter {
+  text-align: center;
+  color: #78909c;
+  margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="header">
+    <h1>🌈 Kids English</h1>
+    <p>Learn • Listen • Story</p>
+  </div>
+
+  <div class="age-box">
+    <button class="age-btn active" onclick="setAge(3,this)">
+      👶 3歲
+    </button>
+
+    <button class="age-btn" onclick="setAge(4,this)">
+      🧒 4歲
+    </button>
+
+    <button class="age-btn" onclick="setAge(5,this)">
+      🎒 5歲
+    </button>
+  </div>
+
+  <div class="card">
+
+    <div class="category" id="category">
+      Animals
+    </div>
+
+    <div class="picture" id="picture">
+      🐘
+    </div>
+
+    <div class="word" id="word">
+      Elephant
+    </div>
+
+    <div class="pronunciation">
+      Tap to hear the word
+    </div>
+
+    <button class="listen" onclick="speakWord()">
+      🔊 LISTEN
+    </button>
+
+    <div class="sentence" id="sentence">
+      This is an elephant. It is big.
+    </div>
+
+    <div class="story-box">
+
+      <div class="story-title">
+        📖 Mini Story
+      </div>
+
+      <div class="story" id="story">
+      </div>
+
+      <button class="read" onclick="speakStory()">
+        🔊 READ THE STORY
+      </button>
+
+    </div>
+
+    <button class="next" onclick="nextWord()">
+      NEXT ➜
+    </button>
+
+  </div>
+
+  <div class="counter" id="counter"></div>
+
+</div>
+
+
+<script>
+
+let age = 3;
+let current = 0;
+
+const words = [
+
+{
+ word:"Elephant",
+ picture:"🐘",
+ category:"Animals",
+
+ age3:"This is an elephant. It is big.",
+ age4:"The elephant is big. It has a long trunk.",
+ age5:"The elephant uses its long trunk to drink water.",
+
+ story3:"Ella sees an elephant. It is big. The elephant drinks water.",
+ story4:"Ella sees a big elephant near the water. It uses its long trunk to drink.",
+ story5:"Ella watches an elephant walking slowly to the river. It fills its long trunk with water and takes a drink."
+},
+
+{
+ word:"Dog",
+ picture:"🐶",
+ category:"Animals",
+
+ age3:"This is a dog. It is happy.",
+ age4:"The happy dog likes to run and play.",
+ age5:"The friendly dog runs through the garden with its ball.",
+
+ story3:"Ben has a dog. The dog runs. Ben says, Good dog!",
+ story4:"Ben's little dog loves to play. It runs after a red ball.",
+ story5:"Ben throws a red ball across the garden. His happy dog runs quickly to bring it back."
+},
+
+{
+ word:"Apple",
+ picture:"🍎",
+ category:"Food",
+
+ age3:"This is an apple. It is red.",
+ age4:"The red apple is sweet and crunchy.",
+ age5:"Emma picks a bright red apple from the tree.",
+
+ story3:"Emma sees an apple. It is red. Yum!",
+ story4:"Emma picks a red apple from a tree. She takes a big crunchy bite.",
+ story5:"Emma finds a bright red apple hanging from the tree. She picks it carefully and enjoys its sweet taste."
+},
+
+{
+ word:"Lion",
+ picture:"🦁",
+ category:"Animals",
+
+ age3:"This is a lion. It is strong.",
+ age4:"The lion has a big mane and a loud roar.",
+ age5:"The strong lion walks slowly across the grass.",
+
+ story3:"Leo is a lion. He walks in the grass. Roar!",
+ story4:"Leo the lion walks through the tall grass. Then he gives a big roar.",
+ story5:"Leo the lion walks quietly across the grass as the sun rises. Suddenly, he lifts his head and gives a powerful roar."
+},
+
+{
+ word:"Car",
+ picture:"🚗",
+ category:"Vehicles",
+
+ age3:"This is a car. It goes fast.",
+ age4:"The blue car drives along the road.",
+ age5:"The little blue car travels through the busy town.",
+
+ story3:"Tom has a car. It goes zoom, zoom!",
+ story4:"Tom drives his blue car up a hill and back home.",
+ story5:"Tom drives his little blue car through town, over a bridge, and all the way home."
+},
+
+{
+ word:"Sun",
+ picture:"☀️",
+ category:"Nature",
+
+ age3:"This is the sun. It is bright.",
+ age4:"The bright sun shines in the sky.",
+ age5:"The warm sun shines brightly over the trees.",
+
+ story3:"The sun is up. It is warm and bright.",
+ story4:"The sun rises in the morning. Its warm light fills the sky.",
+ story5:"The bright morning sun rises above the trees and warms the little birds in their nests."
+},
+
+{
+ word:"Fish",
+ picture:"🐟",
+ category:"Animals",
+
+ age3:"This is a fish. It can swim.",
+ age4:"The little fish swims in the blue water.",
+ age5:"The colorful fish swims quickly through the clear water.",
+
+ story3:"A fish swims. Splash! It swims away.",
+ story4:"A little fish swims around a rock and finds a friend.",
+ story5:"A colorful fish swims through the clear blue water and explores the rocks with its friend."
+},
+
+{
+ word:"Train",
+ picture:"🚂",
+ category:"Vehicles",
+
+ age3:"This is a train. Choo choo!",
+ age4:"The long train moves along the tracks.",
+ age5:"The long train carries people through the countryside.",
+
+ story3:"The train goes choo choo. It goes fast!",
+ story4:"A train leaves the station and travels over a bridge.",
+ story5:"The long train leaves the busy station and travels across a bridge into the green countryside."
+}
+
+];
+
+
+function setAge(newAge, button) {
+
+ age = newAge;
+
+ document
+ .querySelectorAll(".age-btn")
+ .forEach(b => b.classList.remove("active"));
+
+ button.classList.add("active");
+
+ showWord();
+}
+
+
+function showWord() {
+
+ const item = words[current];
+
+ document.getElementById("picture").innerText =
+ item.picture;
+
+ document.getElementById("word").innerText =
+ item.word;
+
+ document.getElementById("category").innerText =
+ item.category;
+
+ document.getElementById("sentence").innerText =
+ item["age" + age];
+
+ document.getElementById("story").innerText =
+ item["story" + age];
+
+ document.getElementById("counter").innerText =
+ (current + 1) + " / " + words.length;
+}
+
+
+function nextWord() {
+
+ current++;
+
+ if(current >= words.length) {
+   current = 0;
+ }
+
+ showWord();
+}
+
+
+function speak(text) {
+
+ window.speechSynthesis.cancel();
+
+ const speech =
+ new SpeechSynthesisUtterance(text);
+
+ speech.lang = "en-US";
+
+ if(age === 3)
+   speech.rate = 0.65;
+ else if(age === 4)
+   speech.rate = 0.72;
+ else
+   speech.rate = 0.80;
+
+ window.speechSynthesis.speak(speech);
+}
+
+
+function speakWord() {
+
+ speak(
+ document.getElementById("word").innerText
+ );
+
+}
+
+
+function speakStory() {
+
+ speak(
+ document.getElementById("story").innerText
+ );
+
+}
+
+
+showWord();
+
+</script>
+
+</body>
+</html>
