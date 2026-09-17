@@ -207,9 +207,9 @@ const VERIFIED={
 const CORE_TARGET=3000, KEY="kidsEnglishCore3000V10", OLD_KEY="kidsEnglishCore3000V9";
 const $=id=>document.getElementById(id);
 let S=loadState(), deck=[],pos=0,current=null, currentDict=null;
-function loadState(){try{return JSON.parse(localStorage.getItem(KEY))||JSON.parse(localStorage.getItem(OLD_KEY))||fresh()}catch(e){return fresh()}}
+function loadState(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null')||JSON.parse(localStorage.getItem(OLD_KEY)||'null');if(!x||typeof x!=='object')return fresh();x.seen=x.seen&&typeof x.seen==='object'?x.seen:{};x.learned=x.learned&&typeof x.learned==='object'?x.learned:{};x.events=Array.isArray(x.events)?x.events:[];x.recent=Array.isArray(x.recent)?x.recent:[];return x}catch(e){return fresh()}}
 function fresh(){return {seen:{},learned:{},recent:[],events:[],lastWord:null}}
-function save(){localStorage.setItem(KEY,JSON.stringify(S))}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){console.warn('Local learning record storage unavailable',e)}}
 function dayKey(d=new Date()){return d.toLocaleDateString('en-CA')}
 function logEvent(type,w){S.events=S.events||[];S.events.push({type,id:w.id,word:w.word,ts:Date.now(),day:dayKey()});if(S.events.length>4000)S.events=S.events.slice(-4000)}
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
